@@ -1,8 +1,8 @@
+import RouterComponent from "./routes/routes"
+
 function App() {
   return (
-    <>
-      <p>Hola mundo</p>
-    </>
+   <RouterComponent/>
   );
 }
 
