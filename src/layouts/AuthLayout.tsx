@@ -1,16 +1,14 @@
 import { Grid } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import './styles.scss';
 
 
 
 const AuthLayout = () => {
-  const defaultTheme = createTheme();
+  
   
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
        <Grid
@@ -25,7 +23,6 @@ const AuthLayout = () => {
           <Outlet />
         </Grid>
       </Grid>
-    </ThemeProvider>
   );
 };
 

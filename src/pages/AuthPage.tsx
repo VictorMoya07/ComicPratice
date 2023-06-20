@@ -1,13 +1,10 @@
-import { Box, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Typography, Button } from "@mui/material";
 import AuthForm from "../components/AuthForm";
 import useForm from "../hooks/useForm";
+import AlertComponent from "../components/AlertComponent";
 
 const AuthPage = () => {
-  const { handleChange, values, handleSubmit } = useForm({
-    email: "",
-    password: "",
-  });
+  const { handleChange, values, handleSubmit, onRegister, setOnRegister,validateErrors } = useForm();
 
   return (
     <Box
@@ -19,19 +16,25 @@ const AuthPage = () => {
         alignItems: "center",
       }}
     >
+      <AlertComponent/>
       <Typography component="h1" variant="h5">
-        Inicia Sesion
+        {!onRegister ? "Inicia Sesion" : "Registrate"}
       </Typography>
       <AuthForm
-        onRegister={false}
+        onRegister={onRegister}
         handleChange={handleChange}
         values={values}
         handleSubmit={handleSubmit}
+        validateErrors={validateErrors}
       />
-
-      <Typography variant="body2" color="text.secondary" align="center">
-        No tienes cuenta aun? <Link to="/register">Registrate</Link>
-      </Typography>
+      {!onRegister ? (
+        <Typography variant="body2" color="text.secondary" align="center">
+          No tienes cuenta aun?{" "}
+          <Button variant="text" onClick={() => setOnRegister(true)}>
+            Registrate
+          </Button>
+        </Typography>
+      ) : null}
     </Box>
   );
 };
