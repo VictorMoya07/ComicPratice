@@ -36,6 +36,11 @@ const ConfigProvider = ({ children }: any) => {
     return false;
   };
 
+
+  const updateConfig = async(data)=>{
+    localStorage.setItem("config", JSON.stringify(data));
+    setConfig(data)
+  }
   useEffect(() => {
     const confirConfig = async () => {
       const res = await getConfig();
@@ -48,7 +53,7 @@ const ConfigProvider = ({ children }: any) => {
       }
   }, [checkConfig]);
 
-  const value: any = {config, setCheckConfig,checkConfig,isLoading};
+  const value: any = {config, setCheckConfig,checkConfig,isLoading,updateConfig};
 
   return (
     <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>
