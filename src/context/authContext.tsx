@@ -1,6 +1,8 @@
 import { createContext, useState, ReactNode } from "react";
 import bcrypt from "bcryptjs";
 import { useNavigate } from "react-router-dom";
+import useAlert from "../hooks/useAlert";
+
 
 interface IAuthContext {
   login: (data: IDataLogin) => void;
@@ -16,7 +18,7 @@ interface IAuthProvider {
 interface IDataRegister {
   email: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
   name: string;
 }
 
@@ -27,6 +29,7 @@ interface IDataLogin {
 const AuthContext = createContext<IAuthContext | null>(null);
 
 const AuthProvider = ({ children }: IAuthProvider) => {
+  const { showAlert } = useAlert();
   const [user, setUser] = useState<object>({});
   const navigate = useNavigate();
   
@@ -72,12 +75,9 @@ const AuthProvider = ({ children }: IAuthProvider) => {
   };
 
   const register = async (data: IDataRegister) => {
-    if (data.password !== data.confirmPassword) {
-      alert("password and confirm password must be same");
-      return false;
-    }
-    if (await isRegisteded(data)) {
-      alert("user already exist");
+    const { confirmPassword, ...registerData } = data;
+    if (await isRegisteded(registerData)) {
+      showAlert("Ya existe un usuario creado con este con este correo", "error");
       return false
     }
     const hash = bcrypt.hashSync(data.password, 10);

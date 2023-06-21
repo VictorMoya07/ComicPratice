@@ -4,15 +4,27 @@ import useAlert from "../hooks/useAlert";
 import { validateForm } from "../utils/validateForm";
 
 interface FormValues {
-    name?: string;
-    email: string;
-    password: string;
-    confirmPassword?: string;
+  name?: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}
+
+interface IInitialLogin {
+  email: string;
+  password: string;
+}
+
+interface IInitialRegister {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
 }
 
 const useForm = () => {
-  const initialLogin = { email: "", password: "" };
-  const initialRegister = {
+  const initialLogin: IInitialLogin = { email: "", password: "" };
+  const initialRegister: IInitialRegister = {
     email: "",
     password: "",
     name: "",
@@ -20,18 +32,26 @@ const useForm = () => {
   };
 
   const { login, register, user } = useAuth();
-  const{ showAlert }= useAlert();
+  const { showAlert } = useAlert();
   const [values, setValues] = useState<FormValues>(initialLogin);
   const [onRegister, setOnRegister] = useState<boolean>(false);
   const [validateErrors, setErrorsValidate] = useState<object>({});
 
-  useEffect(() => {
+  const resetForm = () => {
     if (onRegister) {
-      setValues(initialRegister)
-      setErrorsValidate({});
+      setValues(initialRegister);
+    } else {
+      setValues(initialLogin);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onRegister]);
+    setErrorsValidate({});
+  };
+
+  useEffect(() => {
+    resetForm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    onRegister,
+  ]); /* Setea el estado inicial del formulario y limpia los errores.  */
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -41,20 +61,26 @@ const useForm = () => {
   };
 
   const handleSubmit = async () => {
-    const errors = validateForm(values, onRegister);
-    if(Object.keys(errors).length>0) {
+    const errors = validateForm(values, onRegister); /* valida los errores */
+    if (Object.keys(errors).length > 0) {
+      /* retorna si existen errores en los inputs */
       setErrorsValidate(errors);
       return;
     }
-
+    /* Se loguea o se registra el usuario dependiendo del estado onRegister */
     if (onRegister) {
-     if (await register(values)) {
-        showAlert("Registro completado ahora puedes Iniciar Session", "success");
-        setOnRegister(false)
-        setValues(initialLogin)
-     }
+      if (await register(values)) {
+        showAlert(
+          "Registro completado ahora puedes Iniciar Session",
+          "success"
+        );
+        setOnRegister(false);
+        setValues(initialLogin);
+      }
     } else {
-      await login(values);
+      if (!(await login(values))) {
+        showAlert("Usuario o contraseña incorrectos", "error");
+      }
     }
   };
 
@@ -64,7 +90,7 @@ const useForm = () => {
     values,
     onRegister,
     setOnRegister,
-    validateErrors
+    validateErrors,
   };
 };
 
