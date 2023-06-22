@@ -23,7 +23,7 @@ const initialState={
 
 
 
-const AlertContext = createContext<IAlertContext|null>(null)
+const AlertContext = createContext<IAlertContext>({} as IAlertContext)
 
 
 const AlertProvider = ({children}:IAlertProvider)=>{
@@ -34,7 +34,7 @@ const AlertProvider = ({children}:IAlertProvider)=>{
 
         setTimeout(() => {
             setAlert(initialState)
-          }, 3000);
+          }, 2000);
     }
 
     return(

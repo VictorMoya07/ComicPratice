@@ -5,10 +5,10 @@ import useAlert from "../hooks/useAlert";
 
 
 interface IAuthContext {
-  login: (data: IDataLogin) => void;
-  logout: () => void;
+  login: (data: IDataLogin) => Promise<boolean>;
+  logout: () => void
   user: object;
-  register: (data: IDataRegister) => void;
+  register: (data: IDataRegister) => Promise<boolean>;
 }
 
 interface IAuthProvider {
@@ -19,14 +19,18 @@ interface IDataRegister {
   email: string;
   password: string;
   confirmPassword?: string;
-  name: string;
+  name?: string;
 }
 
 interface IDataLogin {
   email: string;
   password: string;
 }
-const AuthContext = createContext<IAuthContext | null>(null);
+interface IloginResult {
+  login:boolean;
+  nameUser:string;
+}
+const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 const AuthProvider = ({ children }: IAuthProvider) => {
   const { showAlert } = useAlert();
@@ -50,23 +54,29 @@ const AuthProvider = ({ children }: IAuthProvider) => {
   };
 
   const isLogged = async (data: IDataLogin) => {
+    let loginRes:IloginResult ={login:true, nameUser:''}
     const userLogin = await getUser();
     if (userLogin) {
       if (
         userLogin.email.toLocaleLowerCase() ===
           data.email.toLocaleLowerCase() && bcrypt.compareSync(data.password, userLogin.password)
       ) {
-        return {login:true, nameUser:userLogin.name}
+        return loginRes={login:true, nameUser:userLogin.name}
+      }else{
+        loginRes={login:false, nameUser:''}
       }
     }
+    return loginRes;
   };
 
   const login = async(data: IDataLogin) => {
-    const loginUser = await isLogged(data);
-    if (loginUser) {
-      alert("usuario logueado");
-      setUser({success:true, name: loginUser.nameUser});
+    const loginUser:IloginResult = await isLogged(data);
+    if (loginUser.login) {
+      setUser({success:loginUser.login, name: loginUser.nameUser});
       navigate('/home')
+      return true
+    }else{
+     return false
     }
   };
 
@@ -86,10 +96,15 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     setUser(data);
     return true
   };
-
+  const value:IAuthContext ={
+    user,
+    login,
+    logout,
+    register,
+  }
   return (
     <AuthContext.Provider
-      value={{ login, logout, user, register }}
+      value={value}
     >
       {children}
     </AuthContext.Provider>

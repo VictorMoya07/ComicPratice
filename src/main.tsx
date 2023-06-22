@@ -13,18 +13,18 @@ import { ConfigProvider } from "./context/configContext.tsx";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
+    <AlertProvider>
       <BrowserRouter>
       <ConfigProvider>
       <MarvelProvider>
-        <AlertProvider>
           <AuthProvider>
             <CssBaseline />
             <App />
           </AuthProvider>
-        </AlertProvider>
         </MarvelProvider>
         </ConfigProvider>
       </BrowserRouter>
+      </AlertProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

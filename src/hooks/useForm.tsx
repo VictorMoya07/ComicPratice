@@ -3,19 +3,20 @@ import useAuth from "../hooks/useAuth";
 import useAlert from "../hooks/useAlert";
 import { validateForm } from "../utils/validateForm";
 
+
 interface FormValues {
   name?: string;
   email: string;
   password: string;
   confirmPassword?: string;
-}
+} 
 
-interface IInitialLogin {
+interface IInitialLogin extends FormValues {
   email: string;
   password: string;
 }
 
-interface IInitialRegister {
+interface IInitialRegister extends FormValues {
   name: string;
   email: string;
   password: string;
@@ -31,7 +32,7 @@ const useForm = () => {
     confirmPassword: "",
   };
 
-  const { login, register, user } = useAuth();
+  const { login, register } = useAuth();
   const { showAlert } = useAlert();
   const [values, setValues] = useState<FormValues>(initialLogin);
   const [onRegister, setOnRegister] = useState<boolean>(false);

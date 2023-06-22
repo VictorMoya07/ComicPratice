@@ -11,8 +11,7 @@ const AuthPage = () => {
     onRegister,
     setOnRegister,
     validateErrors,
-  } =
-    useForm(); /* Se usa el hook useForm para llevar toda la logica del formulario */
+  } =useForm(); /* Se usa el hook useForm para llevar toda la logica del formulario */
 
   return (
     <Box

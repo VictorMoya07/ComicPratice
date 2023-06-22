@@ -39,7 +39,6 @@ const ConfigForm = () => {
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    console.log("Opción 1:", configuracion);
     updateConfig(configuracion);
   };
 

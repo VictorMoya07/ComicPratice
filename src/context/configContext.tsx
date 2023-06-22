@@ -1,12 +1,26 @@
-import { createContext, useEffect, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
+import useAlert from "../hooks/useAlert";
 
-const ConfigContext = createContext(null);
 
 interface IConfig {
   comics: boolean;
   characters: boolean;
   events: boolean;
   series: boolean;
+}
+
+interface IconfigContext {
+  config: IConfig
+  setCheckConfig:Dispatch<SetStateAction<boolean>>
+  checkConfig:boolean
+  isLoading:boolean
+  updateConfig:(data: IConfig) => Promise<void>
+}
+
+
+
+interface IConfigProvider {
+  children: ReactNode;
 }
 
 const firstConfig: IConfig = {
@@ -16,31 +30,35 @@ const firstConfig: IConfig = {
   series: true,
 };
 
-const ConfigProvider = ({ children }: any) => {
-  const [config, setConfig] = useState(firstConfig);
-  const [checkConfig, setCheckConfig] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+const ConfigContext = createContext({} as IconfigContext);
+
+const ConfigProvider = ({ children }: IConfigProvider) => {
+  const { showAlert } = useAlert();
+
+  const [config, setConfig] = useState<IConfig>(firstConfig);
+  const [checkConfig, setCheckConfig] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const sendFirtsConfig = async () => {
     localStorage.setItem("config", JSON.stringify(config));
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   const getConfig = async () => {
     const configData = localStorage.getItem("config");
     if (configData) {
       setConfig(JSON.parse(configData));
-      setIsLoading(false)
+      setIsLoading(false);
       return true;
     }
     return false;
   };
 
-
-  const updateConfig = async(data)=>{
+  const updateConfig = async (data: IConfig) => {
     localStorage.setItem("config", JSON.stringify(data));
-    setConfig(data)
-  }
+    showAlert("Configuracion guardada con exito", "success");
+    setConfig(data);
+  };
   useEffect(() => {
     const confirConfig = async () => {
       const res = await getConfig();
@@ -49,11 +67,18 @@ const ConfigProvider = ({ children }: any) => {
       }
     };
     if (checkConfig) {
-        confirConfig();
-      }
+      confirConfig();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkConfig]);
 
-  const value: any = {config, setCheckConfig,checkConfig,isLoading,updateConfig};
+  const value: IconfigContext = {
+    config,
+    setCheckConfig,
+    checkConfig,
+    isLoading,
+    updateConfig,
+  };
 
   return (
     <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>

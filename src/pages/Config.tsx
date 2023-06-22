@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import ConfigForm from '../components/configForm';
-
+import ConfigForm from '../components/ConfigForm';
+import AlertComponent from "../components/AlertComponent";
 
 
 const Config = () => {
@@ -18,7 +18,8 @@ const Config = () => {
           alignItems: 'center',
           width: '100%',
         }}
-      >
+      > 
+      <AlertComponent/>
         <Typography component="h1" variant="h4">
           Configuración
         </Typography>
