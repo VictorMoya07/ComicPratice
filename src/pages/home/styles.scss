@@ -1,0 +1,29 @@
+.paperCat {
+    padding-top: 0.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .paperCat--comics {
+    --color: #FF9B54;
+    background-color: var(--color)!important;
+  }
+  
+  .paperCat--series {
+    --color: #669bbc;
+    background-color: var(--color)!important;
+  }
+  
+  .paperCat--events {
+    --color: #307351;
+    background-color: var(--color)!important;
+  }
+
+  .paperCat--characters {
+    --color: #C1121F;
+    background-color: var(--color)!important;
+  }
