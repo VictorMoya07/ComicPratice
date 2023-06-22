@@ -1,36 +1,39 @@
 import useMarvel from "../hooks/useMarvel";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Grid } from "@mui/material";
 
 const TotalComponent = () => {
-
-    const {marvelData} = useMarvel();
-
-    
-  return (<>
-   <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        {'series' + marvelData.series}
-        </Typography>
-        <Typography variant="h5" component="div">
-        {'caracterres'+ marvelData.characteres}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-        {'events'+marvelData.eventsComics}
-        </Typography>
-        <Typography variant="body2">
-        {'comics'+ marvelData.commics}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
-  </>
+  
+  const {marvelData} = useMarvel();
+  
+  return (
+  <Grid container spacing={2} justifyContent={'space-around'} alignContent={'space-around'}>
+    <Grid item xs={12}>
+      <Typography variant="h4" component="h1" sx={{textAlign:'center'}}>
+        Totales de cada categoria de Marvel Comics
+      </Typography>
+    </Grid>
+    <Grid item xs={3}>
+      <Typography variant="h5" component="h1">
+        {'Series: ' + marvelData.series}
+      </Typography>
+    </Grid>
+    <Grid item xs={3}>
+      <Typography variant="h5" component="h1">
+        {'Personajes: ' + marvelData.characters}
+      </Typography>
+    </Grid>
+    <Grid item xs={3}>
+      <Typography variant="h5" component="h1">
+        {'Eventos: ' + marvelData.eventsComics}
+      </Typography>
+    </Grid>
+    <Grid item xs={3}>
+      <Typography variant="h5" component="h1">
+        {'Comics: ' + marvelData.commics}
+      </Typography>
+    </Grid>
+  </Grid>
     
   )
 }

@@ -1,15 +1,14 @@
-import { Navigate, Route, Routes } from "react-router-dom"
-import AuthLayout from "../layouts/AuthLayout";
+import { Navigate, Route, Routes } from "react-router-dom";
+import AuthLayout from "../layouts/Autentication/AuthLayout";
 import AuthPage from "../pages/AuthPage";
 import { PrivateRoutes } from "./privateRoutes";
-import useAuth from "../hooks/useAuth"
+import useAuth from "../hooks/useAuth";
 
 const RouterComponent = () => {
-
-  const {user} = useAuth()
+  const { user } = useAuth();
   return (
     <Routes>
-       {user.success ? (
+      {user.success ? (
         <Route path="/*" element={<PrivateRoutes />} />
       ) : (
         <Route path="/" element={<AuthLayout />}>
