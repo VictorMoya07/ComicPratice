@@ -3,6 +3,7 @@ import useAlert from "../hooks/useAlert";
 
 
 interface IConfig {
+  [key: string]: boolean;
   comics: boolean;
   characters: boolean;
   events: boolean;
@@ -16,8 +17,6 @@ interface IconfigContext {
   isLoading:boolean
   updateConfig:(data: IConfig) => Promise<void>
 }
-
-
 
 interface IConfigProvider {
   children: ReactNode;
@@ -56,7 +55,7 @@ const ConfigProvider = ({ children }: IConfigProvider) => {
 
   const updateConfig = async (data: IConfig) => {
     localStorage.setItem("config", JSON.stringify(data));
-    showAlert("Configuracion guardada con exito", "success");
+    showAlert("Configuracion guardada con exito. Puedes volver a HOME", "success");
     setConfig(data);
   };
   useEffect(() => {

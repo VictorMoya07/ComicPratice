@@ -10,14 +10,17 @@ import theme from "./theme";
 import { MarvelProvider } from "./context/marvelContext.tsx";
 import { ConfigProvider } from "./context/configContext.tsx";
 import { ForeingProvider } from "./context/foreingDataContext.tsx";
+import { ConfigCatProvider, LogLevel, createConsoleLogger } from 'configcat-react';
+
+const key = import.meta.env.VITE_CONFIGCAT_KEY
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-    <BrowserRouter>
-    <AlertProvider>
+      <BrowserRouter>
+      <ConfigCatProvider sdkKey={key} options={{logger: createConsoleLogger(LogLevel.Info)}}>
         <AlertProvider>
-            <ConfigProvider>
+          <ConfigProvider>
             <ForeingProvider>
               <MarvelProvider>
                 <AuthProvider>
@@ -25,10 +28,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                   <App />
                 </AuthProvider>
               </MarvelProvider>
-              </ForeingProvider>
-            </ConfigProvider>
-            </AlertProvider>
-      </AlertProvider>
+            </ForeingProvider>
+          </ConfigProvider>
+        </AlertProvider>
+        </ConfigCatProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>

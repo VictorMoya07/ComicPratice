@@ -3,20 +3,31 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import useConfig from "../hooks/useConfig";
+import { useFeatureFlag } from "configcat-react";
+
+interface IConfig {
+  [key: string]: boolean;
+  comics: boolean;
+  characters: boolean;
+  events: boolean;
+  series: boolean;
+}
+
 
 const ConfigForm = () => {
   const { config, updateConfig } = useConfig();
+  const { value: confirmFlag } = useFeatureFlag("confirmflag", false);
 
-  const [configuracion, setConfiguracion] = useState(config);
-  const [option1, setOption1] = useState(
+  const [configuracion, setConfiguracion] = useState<IConfig>(config);
+  const [option1, setOption1] = useState<any>(
     Object.keys(config).find((key) => config[key])
   );
-  const [option2, setOption2] = useState(
+  const [option2, setOption2] = useState<any>(
     Object.keys(config).find((key) => config[key] && key !== option1)
   );
 
-  const handleOption1Change = (event) => {
-    const selectedOption = event.target.value;
+  const handleOption1Change = (e: { target: { value: string; }; }) => {
+    const selectedOption = e.target.value as string;
     const updatedConfiguracion = { ...configuracion };
     if (selectedOption !== option2) {
       updatedConfiguracion[option1] = false;
@@ -26,8 +37,8 @@ const ConfigForm = () => {
     }
   };
 
-  const handleOption2Change = (event: { target: { value: any; }; }) => {
-    const selectedOption = event.target.value;
+  const handleOption2Change = (e: { target: { value: string; }; }) => {
+    const selectedOption = e.target.value as string;
     const updatedConfiguracion = { ...configuracion };
     if (selectedOption !== option1) {
       updatedConfiguracion[option2] = false;
@@ -70,7 +81,7 @@ const ConfigForm = () => {
           ))}
         </Select>
       </FormControl>
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+      <Button disabled={confirmFlag} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
         Confirmar
       </Button>
     </Box>

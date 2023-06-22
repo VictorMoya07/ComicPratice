@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import useAuth from '../hooks/useAuth'
+import { useFeatureFlag } from "configcat-react";
 
 interface NavbarProps {
   user: {
@@ -10,6 +11,7 @@ interface NavbarProps {
 
 const Navbar = ({ user }: NavbarProps) => {
   const { logout } = useAuth();
+  const { value: logoutFlag } = useFeatureFlag("logoutflag", false);
   return (
     <Box width="100%" sx={{ flexGrow: 1 }}>
     <Grid
@@ -40,7 +42,7 @@ const Navbar = ({ user }: NavbarProps) => {
             </Link>
           </Grid>
           <Grid item>
-              <Button variant="text" color="secondary" onClick={()=>logout()}>
+              <Button disabled={logoutFlag} variant="text" color="secondary" onClick={()=>logout()}>
                 Logout
               </Button>
           </Grid>
