@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import useAuth from '../hooks/useAuth'
 
 interface NavbarProps {
   user: {
@@ -8,6 +9,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ user }: NavbarProps) => {
+  const { logout } = useAuth();
   return (
     <Box width="100%" sx={{ flexGrow: 1 }}>
     <Grid
@@ -36,6 +38,11 @@ const Navbar = ({ user }: NavbarProps) => {
                 Config
               </Button>
             </Link>
+          </Grid>
+          <Grid item>
+              <Button variant="text" color="secondary" onClick={()=>logout()}>
+                Logout
+              </Button>
           </Grid>
         </Grid>
       </Grid>

@@ -39,7 +39,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
   
 
   const getUser = () => {
-    const item = localStorage.getItem("token");
+    const item = localStorage.getItem("user");
     return item ? JSON.parse(item) : null;
   };
   const isRegisteded = async (data: IDataRegister) => {
@@ -81,7 +81,8 @@ const AuthProvider = ({ children }: IAuthProvider) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    setUser({success:false, name: ''})
+    navigate('/')
   };
 
   const register = async (data: IDataRegister) => {
@@ -92,7 +93,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     }
     const hash = bcrypt.hashSync(data.password, 10);
     data.password = hash;
-    localStorage.setItem("token", JSON.stringify(data));
+    localStorage.setItem("user", JSON.stringify(data));
     setUser(data);
     return true
   };
