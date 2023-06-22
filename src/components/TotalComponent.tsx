@@ -1,16 +1,18 @@
 import useMarvel from "../hooks/useMarvel";
 import Typography from '@mui/material/Typography';
 import { Grid } from "@mui/material";
+import useForeing from "../hooks/useForeing";
 
 const TotalComponent = () => {
   
   const {marvelData} = useMarvel();
+  const {textHome}:any=useForeing()
   
   return (
   <Grid container spacing={2} justifyContent={'space-around'} alignContent={'space-around'}>
     <Grid item xs={12}>
       <Typography variant="h4" component="h1" sx={{textAlign:'center'}}>
-        Totales de cada categoria de Marvel Comics
+        {textHome}
       </Typography>
     </Grid>
     <Grid item xs={3}>

@@ -3,11 +3,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import ConfigForm from '../components/ConfigForm';
 import AlertComponent from "../components/AlertComponent";
-
+import useForeing from '../hooks/useForeing';
 
 const Config = () => {
 
-  
+  const {textConfig}= useForeing();
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -21,7 +21,7 @@ const Config = () => {
       > 
       <AlertComponent/>
         <Typography component="h1" variant="h4">
-          Configuración
+          {textConfig}
         </Typography>
        <ConfigForm/>
       </Box>
