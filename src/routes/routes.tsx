@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import AuthLayout from "../layouts/Autentication/AuthLayout";
-import AuthPage from "../pages/AuthPage";
+import AuthPage from "../pages/auth/AuthPage";
 import { PrivateRoutes } from "./privateRoutes";
 import useAuth from "../hooks/useAuth";
 
