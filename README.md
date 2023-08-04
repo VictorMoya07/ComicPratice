@@ -1,6 +1,6 @@
 # Título del Proyecto
 
-CONEKTA TEST
+Comics
 
 ## Tabla de Contenidos
 
@@ -13,7 +13,7 @@ CONEKTA TEST
 
 ## Características
 
-ConektaTest es un proyecto que permite a los usuarios  visualizar las series, comics, eventos 
+Comics es un proyecto que permite a los usuarios  visualizar las series, comics, eventos 
                 y personajes de Marvels en la web. Además ConektaTest muestra
                 estadisticas y facilita al usuario la configuración de lo que desea ver.
 
